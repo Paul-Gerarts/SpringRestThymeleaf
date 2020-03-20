@@ -33,7 +33,7 @@ public class Member {
 
     private String email;
 
-    @OneToOne(targetEntity = Address.class, mappedBy = "member")
+    @OneToOne(optional = false, targetEntity = Address.class, mappedBy = "member")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Address address;
 

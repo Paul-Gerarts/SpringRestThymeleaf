@@ -10,7 +10,6 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
 @Entity
 @Table
@@ -39,7 +38,7 @@ public class Address {
     @NotBlank
     private String city;
 
-    @OneToOne
+    @OneToOne(optional = false)
     @JsonIgnore
     private Member member;
 
