@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +22,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotBlank
@@ -38,8 +40,7 @@ public class Address {
     @NotBlank
     private String city;
 
-    @OneToOne(optional = false)
-    @JsonIgnore
+    @OneToOne(mappedBy = "address")
     private Member member;
 
     @Override

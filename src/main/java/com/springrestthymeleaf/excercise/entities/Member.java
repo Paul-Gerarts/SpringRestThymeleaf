@@ -19,6 +19,7 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     private String userName;
@@ -33,8 +34,8 @@ public class Member {
 
     private String email;
 
-    @OneToOne(optional = false, targetEntity = Address.class, mappedBy = "member")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
     private String phoneNumber;

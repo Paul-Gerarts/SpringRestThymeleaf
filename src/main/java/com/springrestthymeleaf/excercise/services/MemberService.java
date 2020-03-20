@@ -1,6 +1,5 @@
 package com.springrestthymeleaf.excercise.services;
 
-import com.springrestthymeleaf.excercise.entities.Address;
 import com.springrestthymeleaf.excercise.entities.Member;
 import com.springrestthymeleaf.excercise.entities.SecurityRoles;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberDto;
@@ -10,7 +9,6 @@ import com.springrestthymeleaf.excercise.factories.MemberFactory;
 import com.springrestthymeleaf.excercise.repositories.MemberRepository;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +33,7 @@ import static com.springrestthymeleaf.excercise.entities.MemberShipRoles.TREASUR
 public class MemberService {
 
     private MemberRepository memberRepository;
-    private Long index;
+    private Integer index;
     private AddressFactory addressFactory;
     private MemberFactory memberFactory;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
