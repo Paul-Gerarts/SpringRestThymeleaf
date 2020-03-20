@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.Set;
 
 @Component
 public class MemberFactory {
@@ -21,7 +21,7 @@ public class MemberFactory {
                                String lastName,
                                Address address,
                                String birthday,
-                               List<String> knittingstiches,
+                               Set<String> knittingstiches,
                                String role,
                                String phoneNumber,
                                String email) {

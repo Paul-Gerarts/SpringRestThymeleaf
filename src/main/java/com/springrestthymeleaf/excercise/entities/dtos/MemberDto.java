@@ -8,7 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -46,5 +46,5 @@ public class MemberDto {
     @NotBlank
     private final String role;
     @Size(min = 1)
-    private final List<String> knittingStiches;
+    private final Set<String> knittingStiches;
 }

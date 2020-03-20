@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
@@ -44,5 +44,5 @@ public class Member {
     private String role;
 
     @ElementCollection
-    private List<String> knittingStiches;
+    private Set<String> knittingStiches;
 }

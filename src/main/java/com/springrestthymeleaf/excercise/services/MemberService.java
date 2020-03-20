@@ -3,6 +3,7 @@ package com.springrestthymeleaf.excercise.services;
 import com.springrestthymeleaf.excercise.entities.Member;
 import com.springrestthymeleaf.excercise.entities.SecurityRoles;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberDto;
+import com.springrestthymeleaf.excercise.entities.dtos.MemberListItem;
 import com.springrestthymeleaf.excercise.exceptions.MemberNotFoundException;
 import com.springrestthymeleaf.excercise.factories.AddressFactory;
 import com.springrestthymeleaf.excercise.factories.MemberFactory;
@@ -21,6 +22,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.springrestthymeleaf.excercise.entities.KnittingStiches.*;
 import static com.springrestthymeleaf.excercise.entities.MemberShipRoles.PRESIDENT;
@@ -39,7 +42,7 @@ public class MemberService {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
-    public MemberService(MemberRepository memberRepository, AddressFactory addressFactory, MemberFactory memberFactory){
+    public MemberService(MemberRepository memberRepository, AddressFactory addressFactory, MemberFactory memberFactory) {
         this.memberRepository = memberRepository;
         this.addressFactory = addressFactory;
         this.memberFactory = memberFactory;
@@ -48,6 +51,13 @@ public class MemberService {
     public Member findById(Long id) {
         Optional<Member> member = findMember(id);
         return member.orElse(Member.builder().build());
+    }
+
+    public List<MemberListItem> findShortList() {
+        return memberRepository.findAll()
+                .stream()
+                .map(this::mapToListItem)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private Optional<Member> findMember(Long id) {
@@ -91,6 +101,16 @@ public class MemberService {
                 .build();
     }
 
+    public MemberListItem mapToListItem(Member member) {
+        return MemberListItem.builder()
+                .id(member.getId())
+                .name(member.getFirstName() + " " + member.getLastName())
+                .email(member.getEmail())
+                .role(member.getRole())
+                .knownStitches(member.getKnittingStiches().size())
+                .build();
+    }
+
     public SecurityRoles getRoleByName(String roleName) {
         switch (roleName) {
             case "super-admin":
@@ -108,13 +128,13 @@ public class MemberService {
         return errorCheck(form, bindingResult);
     }
 
-    private ResponseEntity<?> errorCheck(MemberDto form, BindingResult bindingResult){
+    private ResponseEntity<?> errorCheck(MemberDto form, BindingResult bindingResult) {
         int responseCode = 200;
         if (bindingResult.hasErrors()) {
             for (String code : Objects.requireNonNull(Objects.requireNonNull(bindingResult.getFieldError()).getCodes())) {
                 try {
                     responseCode = Integer.parseInt(code);
-                } catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     log.error(e.getMessage());
                 }
                 log.error(code);
@@ -125,9 +145,9 @@ public class MemberService {
     }
 
     public ResponseEntity<?> deleteMember(@ModelAttribute("myform") @Valid MemberDto form, BindingResult bindingResult) {
-       Optional<Member> memberToDelete = findMember(form.getId());
-       memberRepository.delete(memberToDelete.orElseThrow());
-       return errorCheck(form, bindingResult);
+        Optional<Member> memberToDelete = findMember(form.getId());
+        memberRepository.delete(memberToDelete.orElseThrow());
+        return errorCheck(form, bindingResult);
     }
 
     public void createTestData() {
@@ -141,7 +161,7 @@ public class MemberService {
                             "Swennen",
                             addressFactory.createAddress("Kanaalstraat", "59", "", "3680", "Neeroeteren"),
                             "1987-06-24",
-                            List.of(CABLE.getName(), STOCKINETTE.getName()),
+                            Set.of(CABLE.getName(), STOCKINETTE.getName()),
                             PRESIDENT.getName(),
                             "089/86.12.30",
                             "test@email.com"),
@@ -153,7 +173,7 @@ public class MemberService {
                             "Stefens",
                             addressFactory.createAddress("Gruitroderkiezel", "47", "", "3960", "Bree"),
                             "1956-09-15",
-                            List.of(BEGINNER_LACE.getName(), GARTER.getName()),
+                            Set.of(BEGINNER_LACE.getName(), GARTER.getName()),
                             TREASURER.getName(),
                             "+32494/25.56.10",
                             "email@yahoo.be"

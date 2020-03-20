@@ -54,7 +54,7 @@ public class MemberController {
 
     @GetMapping
     public ResponseEntity<?> handleGet() {
-        return ResponseEntity.status(200).body(memberRepository.findAll());
+        return ResponseEntity.status(200).body(memberService.findShortList());
     }
 
     @GetMapping("/{id}")
