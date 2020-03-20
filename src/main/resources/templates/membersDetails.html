@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.w3.org/1999/xhtml"
+      th:replace="base:: layout(~{::title}, ~{::section})">
+<head>
+    <title>Detailweergave lid</title>
+</head>
+<body>
+<section>
+    <h1>Detailweergave lid</h1>
+    <dl class="row">
+        <dt class="col-sm-3">voornaam:</dt>
+        <dd class="col-sm-9">[[${member.firstName}]]</dd>
+        <dt class="col-sm-3">achternaam:</dt>
+        <dd class="col-sm-9">[[${member.lastName}]]</dd>
+        <dt class="col-sm-3">email:</dt>
+        <dd class="col-sm-9">[[${member.email}]]</dd>
+        <dt class="col-sm-3">adres:</dt>
+        <dd class="col-sm-9">[[${member.address}]]</dd>
+        <dt class="col-sm-3">telefoonnummer:</dt>
+        <dd class="col-sm-9">[[${member.phoneNumber}]]</dd>
+        <dt class="col-sm-3">geboortedatum:</dt>
+        <dd class="col-sm-9">[[${member.birthday}]]</dd>
+        <dt class="col-sm-3">functie:</dt>
+        <dd class="col-sm-9">[[${member.role}]]</dd>
+        <dt class="col-sm-3">gekende breisteken:</dt>
+        <dd class="col-sm-9">[[${member.knittingStiches}]]</dd>
+    </dl>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <a class="btn btn-primary" th:href="@{/members/{id}(id=${member.getId()})}">Details wijzigen</a>
+    </div>
+</section>
+</body>
+</html>

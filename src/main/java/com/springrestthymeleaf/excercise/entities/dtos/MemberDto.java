@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberDto {
 
-    private final Integer id;
+    private final Long id;
     @Pattern(regexp = "user|admin|super-admin")
     private final String securityRole;
     @NotBlank

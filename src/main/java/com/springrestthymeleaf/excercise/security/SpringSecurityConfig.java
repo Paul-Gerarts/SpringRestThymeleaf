@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
@@ -52,12 +53,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/members/detail/{\\d+}/edit").hasRole(SecurityRoles.ADMIN.name())
-                .antMatchers("/members/create").hasRole(SecurityRoles.ADMIN.name())
+                .antMatchers("/members/{\\d+}").hasRole(SecurityRoles.ADMIN.name())
+                .antMatchers("/members").hasRole(SecurityRoles.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .successHandler(myAuthenticationSuccessHandler())
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")

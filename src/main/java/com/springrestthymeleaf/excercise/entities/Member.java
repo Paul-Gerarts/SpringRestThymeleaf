@@ -1,27 +1,48 @@
 package com.springrestthymeleaf.excercise.entities;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Entity
+@Table
 @Getter
 @Setter
 @ToString
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Member {
 
-    private final Integer id;
-    private final String userName;
-    private final String password;
-    private final SecurityRoles securityRoles;
-    private final String firstName;
-    private final String lastName;
-    private final String email;
-    private final Address address;
-    private final String phoneNumber;
-    private final LocalDate birthday;
-    private final String role;
-    private final List<String> knittingStiches;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String userName;
+
+    private String password;
+
+    private SecurityRoles securityRoles;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Address address;
+
+    private String phoneNumber;
+
+    private LocalDate birthday;
+
+    private String role;
+
+    @ElementCollection
+    private List<String> knittingStiches;
 }
