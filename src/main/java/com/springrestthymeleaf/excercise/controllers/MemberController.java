@@ -8,6 +8,7 @@ import com.springrestthymeleaf.excercise.repositories.MemberRepository;
 import com.springrestthymeleaf.excercise.services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -53,11 +54,13 @@ public class MemberController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole(T(com.springrestthymeleaf.excercise.security.SecurityUtils).ALL_PERMISSIONS)")
     public ResponseEntity<?> handleGet() {
         return ResponseEntity.status(200).body(memberService.findShortList());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole(T(com.springrestthymeleaf.excercise.security.SecurityUtils).ALL_PERMISSIONS)")
     public ResponseEntity<?> handleGet(@PathVariable("id") Long id) {
         return ResponseEntity.status(200).body(memberService.findById(id));
     }
@@ -75,12 +78,14 @@ public class MemberController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole(T(com.springrestthymeleaf.excercise.security.SecurityUtils).ADMINS)")
     public ResponseEntity<?> handleForm(@Valid @ModelAttribute("myform") MemberDto form, BindingResult bindingResult) {
         return ResponseEntity.status(204).body(memberService.addMemberImpl(form, bindingResult));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteMember(@AuthenticationPrincipal @ModelAttribute("myform") MemberDto form, BindingResult bindingResult) {
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+    public ResponseEntity<?> deleteMember(@ModelAttribute("myform") MemberDto form, BindingResult bindingResult) {
         return ResponseEntity.status(204).body(memberService.deleteMember(form, bindingResult));
     }
 }

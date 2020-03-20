@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 
@@ -23,6 +22,7 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @JsonIgnore
     private Long id;
 
     @NotBlank
@@ -35,7 +35,7 @@ public class Address {
     private String postBox;
 
     @NotBlank
-    private String postalCode;
+    private String zipCode;
 
     @NotBlank
     private String city;
@@ -53,7 +53,7 @@ public class Address {
         return street + " " +
                 number + " " +
                 addition + ", " +
-                postalCode + " " +
+                zipCode + " " +
                 city;
     }
 }

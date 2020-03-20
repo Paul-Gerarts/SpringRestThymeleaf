@@ -3,6 +3,7 @@ package com.springrestthymeleaf.excercise.services;
 import com.springrestthymeleaf.excercise.entities.Member;
 import com.springrestthymeleaf.excercise.entities.SecurityRoles;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberDto;
+import com.springrestthymeleaf.excercise.entities.dtos.MemberList;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberListItem;
 import com.springrestthymeleaf.excercise.exceptions.MemberNotFoundException;
 import com.springrestthymeleaf.excercise.factories.AddressFactory;
@@ -26,8 +27,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.springrestthymeleaf.excercise.entities.KnittingStiches.*;
-import static com.springrestthymeleaf.excercise.entities.MemberShipRoles.PRESIDENT;
-import static com.springrestthymeleaf.excercise.entities.MemberShipRoles.TREASURER;
+import static com.springrestthymeleaf.excercise.entities.MemberShipRoles.*;
 
 @Data
 @Service
@@ -53,11 +53,13 @@ public class MemberService {
         return member.orElse(Member.builder().build());
     }
 
-    public List<MemberListItem> findShortList() {
-        return memberRepository.findAll()
+    public MemberList findShortList() {
+        MemberList memberList = new MemberList();
+        memberList.setMembers(memberRepository.findAll()
                 .stream()
                 .map(this::mapToListItem)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toUnmodifiableList()));
+        return memberList;
     }
 
     private Optional<Member> findMember(Long id) {
@@ -73,7 +75,7 @@ public class MemberService {
                         getRoleByName(dto.getSecurityRole()),
                         dto.getFirstName(),
                         dto.getLastName(),
-                        addressFactory.createAddress(dto.getStreet(), dto.getNumber(), dto.getPostBox(), dto.getPostalCode(), dto.getCity()),
+                        addressFactory.createAddress(dto.getStreet(), dto.getNumber(), dto.getPostBox(), dto.getZipCode(), dto.getCity()),
                         dto.getBirthday(),
                         dto.getKnittingStiches(),
                         dto.getRole(),
@@ -91,7 +93,7 @@ public class MemberService {
                 .street(member.getAddress().getStreet())
                 .number(member.getAddress().getNumber())
                 .postBox(member.getAddress().getPostBox())
-                .postalCode(member.getAddress().getPostalCode())
+                .zipCode(member.getAddress().getZipCode())
                 .city(member.getAddress().getCity())
                 .birthday(member.getBirthday().toString())
                 .knittingStiches(member.getKnittingStiches())
@@ -166,8 +168,8 @@ public class MemberService {
                             "089/86.12.30",
                             "test@email.com"),
                     memberFactory.createMember(
-                            "Maria",
-                            "Stefens",
+                            "user",
+                            "password",
                             SecurityRoles.READER,
                             "Maria",
                             "Stefens",
@@ -176,7 +178,19 @@ public class MemberService {
                             Set.of(BEGINNER_LACE.getName(), GARTER.getName()),
                             TREASURER.getName(),
                             "+32494/25.56.10",
-                            "email@yahoo.be"
+                            "email@yahoo.be"),
+                    memberFactory.createMember(
+                            "super-admin",
+                            "super-admin",
+                            SecurityRoles.SUPER_ADMIN,
+                            "Paul",
+                            "Gerarts",
+                            addressFactory.createAddress("Ophovenstraat", "125", "1A", "3500", "Genk"),
+                            "1997-11-24",
+                            Set.of(BEGINNER_LACE.getName()),
+                            VICE_PRESIDENT.getName(),
+                            "089/14.23.56",
+                            "test@gmail.be"
                     )));
         }
     }

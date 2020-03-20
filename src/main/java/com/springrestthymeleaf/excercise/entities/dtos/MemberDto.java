@@ -34,7 +34,7 @@ public class MemberDto {
     @NonNull
     private final String postBox;
     @NotBlank
-    private final String postalCode;
+    private final String zipCode;
     @NotBlank
     private final String city;
     @NotBlank

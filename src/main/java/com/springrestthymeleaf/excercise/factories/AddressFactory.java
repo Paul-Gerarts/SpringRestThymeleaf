@@ -11,7 +11,7 @@ public class AddressFactory {
                 .street(street)
                 .number(number)
                 .postBox(postBox)
-                .postalCode(postalCode)
+                .zipCode(postalCode)
                 .city(city)
                 .build();
     }
