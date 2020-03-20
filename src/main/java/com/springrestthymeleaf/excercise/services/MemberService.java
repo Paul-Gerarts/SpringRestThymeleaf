@@ -1,5 +1,6 @@
 package com.springrestthymeleaf.excercise.services;
 
+import com.springrestthymeleaf.excercise.entities.Address;
 import com.springrestthymeleaf.excercise.entities.Member;
 import com.springrestthymeleaf.excercise.entities.SecurityRoles;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberDto;
@@ -8,15 +9,16 @@ import com.springrestthymeleaf.excercise.factories.AddressFactory;
 import com.springrestthymeleaf.excercise.factories.MemberFactory;
 import com.springrestthymeleaf.excercise.repositories.MemberRepository;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
@@ -28,15 +30,22 @@ import static com.springrestthymeleaf.excercise.entities.MemberShipRoles.TREASUR
 
 @Data
 @Service
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Slf4j
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+    private MemberRepository memberRepository;
     private Long index;
     private AddressFactory addressFactory;
     private MemberFactory memberFactory;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    @Autowired
+    public MemberService(MemberRepository memberRepository, AddressFactory addressFactory, MemberFactory memberFactory){
+        this.memberRepository = memberRepository;
+        this.addressFactory = addressFactory;
+        this.memberFactory = memberFactory;
+    }
 
     public Member findById(Long id) {
         Optional<Member> member = findMember(id);

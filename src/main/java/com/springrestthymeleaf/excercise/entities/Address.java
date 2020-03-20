@@ -28,20 +28,18 @@ public class Address {
     private String street;
 
     @NotBlank
-    @Pattern(regexp = "\\d")
     private String number;
 
     @NonNull
     private String postBox;
 
     @NotBlank
-    @Pattern(regexp = "(\\d{4})")
     private String postalCode;
 
     @NotBlank
     private String city;
 
-    @OneToOne(targetEntity = Member.class, mappedBy = "address")
+    @OneToOne
     @JsonIgnore
     private Member member;
 
