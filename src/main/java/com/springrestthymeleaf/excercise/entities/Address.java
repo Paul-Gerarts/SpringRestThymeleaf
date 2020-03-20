@@ -41,6 +41,7 @@ public class Address {
     private String city;
 
     @OneToOne(mappedBy = "address")
+    @JsonIgnore
     private Member member;
 
     @Override

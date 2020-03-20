@@ -1,7 +1,6 @@
 package com.springrestthymeleaf.excercise.controllers;
 
 import com.springrestthymeleaf.excercise.entities.KnittingStiches;
-import com.springrestthymeleaf.excercise.entities.Member;
 import com.springrestthymeleaf.excercise.entities.MemberShipRoles;
 import com.springrestthymeleaf.excercise.entities.SecurityRoles;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberDto;
@@ -13,12 +12,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

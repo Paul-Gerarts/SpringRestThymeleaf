@@ -33,7 +33,7 @@ import static com.springrestthymeleaf.excercise.entities.MemberShipRoles.TREASUR
 public class MemberService {
 
     private MemberRepository memberRepository;
-    private Integer index;
+    private Long index;
     private AddressFactory addressFactory;
     private MemberFactory memberFactory;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
