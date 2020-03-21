@@ -8,8 +8,6 @@ import com.springrestthymeleaf.excercise.services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,15 +60,9 @@ public class MemberController {
         return ResponseEntity.status(200).body(memberService.findById(id));
     }
 
-    public ResponseEntity<?> forward(@AuthenticationPrincipal Model model) {
-        return ResponseEntity.status(200).body(model.addAttribute("myform", MemberDto.builder()
-                .securityRole("user")
-                .postBox("")
-                .build()));
-    }
-
     @PostMapping()
-    public ResponseEntity<?> addMember(@AuthenticationPrincipal @Valid @ModelAttribute("myform") MemberDto form, BindingResult bindingResult) {
+    @PreAuthorize("hasAnyRole(T(com.springrestthymeleaf.excercise.security.SecurityUtils).ADMINS)")
+    public ResponseEntity<?> addMember(@Valid MemberDto form, BindingResult bindingResult) {
         return ResponseEntity.status(201).body(memberService.addMemberImpl(form, bindingResult));
     }
 
