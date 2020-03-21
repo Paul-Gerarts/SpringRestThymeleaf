@@ -1,6 +1,5 @@
 package com.springrestthymeleaf.excercise.security;
 
-import com.springrestthymeleaf.excercise.entities.SecurityRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +9,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity()
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean("authenticationManager")
@@ -23,18 +24,20 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new CustomUserDetailsService();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Autowired
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                //adding {noop} before the regular String password in order for the default NoOpPasswordEncoder to take hold
-                .withUser("Maria")
-                .password("{noop}Stefens")
-                .roles(SecurityRoles.READER.name())
-                .and()
-                .withUser("admin")
-                .password("{noop}admin")
-                .roles(SecurityRoles.ADMIN.name());
+        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -52,9 +55,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
-                //.antMatchers("/members/{\\d+}").hasAnyRole(SecurityRoles.ADMIN.name(), SecurityRoles.READER.name(), SecurityRoles.SUPER_ADMIN.name())
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
+                .and().httpBasic()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

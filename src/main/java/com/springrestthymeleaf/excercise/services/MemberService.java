@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -71,7 +72,7 @@ public class MemberService {
         memberRepository.save(
                 memberFactory.createMember(
                         dto.getFirstName(),
-                        dto.getLastName(),
+                        new BCryptPasswordEncoder().encode(dto.getLastName()),
                         getRoleByName(dto.getSecurityRole()),
                         dto.getFirstName(),
                         dto.getLastName(),
@@ -141,7 +142,7 @@ public class MemberService {
             memberRepository.saveAll(List.of(
                     memberFactory.createMember(
                             "admin",
-                            "admin",
+                            new BCryptPasswordEncoder().encode("admin"),
                             SecurityRoles.ADMIN,
                             "Jef",
                             "Swennen",
@@ -153,7 +154,7 @@ public class MemberService {
                             "test@email.com"),
                     memberFactory.createMember(
                             "user",
-                            "password",
+                            new BCryptPasswordEncoder().encode("password"),
                             SecurityRoles.READER,
                             "Maria",
                             "Stefens",
@@ -165,7 +166,7 @@ public class MemberService {
                             "email@yahoo.be"),
                     memberFactory.createMember(
                             "super-admin",
-                            "super-admin",
+                            new BCryptPasswordEncoder().encode("super-admin"),
                             SecurityRoles.SUPER_ADMIN,
                             "Paul",
                             "Gerarts",

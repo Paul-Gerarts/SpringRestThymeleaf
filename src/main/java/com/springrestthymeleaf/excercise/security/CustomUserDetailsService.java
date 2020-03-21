@@ -2,6 +2,7 @@ package com.springrestthymeleaf.excercise.security;
 
 import com.springrestthymeleaf.excercise.entities.Member;
 import com.springrestthymeleaf.excercise.repositories.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -13,10 +14,10 @@ import java.util.Arrays;
 
 public class CustomUserDetailsService implements UserDetailsService {
 
+    @Autowired
     private MemberRepository memberRepository;
 
-    public CustomUserDetailsService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
+    public CustomUserDetailsService() {
     }
 
     @Override

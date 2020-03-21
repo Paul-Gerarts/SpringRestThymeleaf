@@ -37,7 +37,7 @@ public class AuthSuccesHandler implements AuthenticationSuccessHandler {
         for (GrantedAuthority grantedAuthority : authorities) {
             if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
                 return "/members";
-            } else if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
+            } else if (grantedAuthority.getAuthority().equals("ROLE_READER")) {
                 return "/members";
             } else {
                 throw new CustomException(HttpStatus.valueOf(401), "Please contact your admin");
