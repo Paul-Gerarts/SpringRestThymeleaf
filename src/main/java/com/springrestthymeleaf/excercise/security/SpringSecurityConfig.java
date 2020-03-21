@@ -52,7 +52,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/members").permitAll()
+                .antMatchers("/**").permitAll()
                 //.antMatchers("/members/{\\d+}").hasAnyRole(SecurityRoles.ADMIN.name(), SecurityRoles.READER.name(), SecurityRoles.SUPER_ADMIN.name())
                 .anyRequest().permitAll()
                 .and()

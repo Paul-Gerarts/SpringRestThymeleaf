@@ -42,7 +42,7 @@ public class MemberDto {
     private final String phoneNumber;
     @NotBlank
     @Birthday
-    private final String birthday;
+    private final String birthDate;
     @NotBlank
     private final String role;
     @Size(min = 1)

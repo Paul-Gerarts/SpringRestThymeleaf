@@ -76,7 +76,7 @@ public class MemberService {
                         dto.getFirstName(),
                         dto.getLastName(),
                         addressFactory.createAddress(dto.getStreet(), dto.getNumber(), dto.getPostBox(), dto.getZipCode(), dto.getCity()),
-                        dto.getBirthday(),
+                        dto.getBirthDate(),
                         dto.getKnittingStiches(),
                         dto.getRole(),
                         dto.getPhoneNumber(),
@@ -95,7 +95,7 @@ public class MemberService {
                 .postBox(member.getAddress().getPostBox())
                 .zipCode(member.getAddress().getZipCode())
                 .city(member.getAddress().getCity())
-                .birthday(member.getBirthday().toString())
+                .birthDate(member.getBirthDate().toString())
                 .knittingStiches(member.getKnittingStiches())
                 .role(member.getRole())
                 .phoneNumber(member.getPhoneNumber())

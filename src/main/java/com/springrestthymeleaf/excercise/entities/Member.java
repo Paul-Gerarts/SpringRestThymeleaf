@@ -39,7 +39,7 @@ public class Member {
 
     private String phoneNumber;
 
-    private LocalDate birthday;
+    private LocalDate birthDate;
 
     private String role;
 
