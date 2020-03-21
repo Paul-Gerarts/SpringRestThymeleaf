@@ -49,7 +49,7 @@ public class MemberController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasAnyRole(T(com.springrestthymeleaf.excercise.security.SecurityUtils).ALL_PERMISSIONS)")
+    // @PreAuthorize("hasAnyRole(T(com.springrestthymeleaf.excercise.security.SecurityUtils).ALL_PERMISSIONS)")
     public ResponseEntity<?> handleGet() {
         return ResponseEntity.status(200).body(memberService.findShortList());
     }
