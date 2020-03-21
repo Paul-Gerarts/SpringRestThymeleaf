@@ -4,6 +4,7 @@ import com.springrestthymeleaf.excercise.entities.Member;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberDto;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberList;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberListItem;
+import com.springrestthymeleaf.excercise.exceptions.InvalidIdException;
 import com.springrestthymeleaf.excercise.exceptions.MemberNotFoundException;
 import com.springrestthymeleaf.excercise.factories.AddressFactory;
 import com.springrestthymeleaf.excercise.factories.MemberFactory;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
@@ -79,6 +81,9 @@ public class MemberService {
 
     public void update(Long id, MemberDto dto) {
         final Member memberToUpdate = findMember(id);
+        if (!id.equals(dto.getId())) {
+            throw new InvalidIdException("The corresponding id's do not match");
+        }
         copyNonNullProperties(dto, memberToUpdate.getAddress());
         copyNonNullProperties(dto, memberToUpdate);
         memberRepository.save(memberToUpdate);
@@ -131,8 +136,8 @@ public class MemberService {
             Member member1 = memberFactory.createMember(
                     "Jef",
                     "Swennen",
-                    addressFactory.createAddress("Kanaalstraat", "59", "1B", "3680", "Neeroeteren"),
-                    "1987-06-24",
+                    addressFactory.createAddress("Kanaalstraat", 59, "1B", 3680, "Neeroeteren"),
+                    LocalDate.parse("1987-06-24", formatter),
                     Set.of(CABLE, STOCKINETTE),
                     PRESIDENT,
                     "089/86.12.30",
@@ -140,8 +145,8 @@ public class MemberService {
             Member member2 = memberFactory.createMember(
                     "Maria",
                     "Stefens",
-                    addressFactory.createAddress("Gruitroderkiezel", "47", "2A", "3960", "Bree"),
-                    "1956-09-15",
+                    addressFactory.createAddress("Gruitroderkiezel", 47, "2A", 3960, "Bree"),
+                    LocalDate.parse("1956-09-15", formatter),
                     Set.of(BEGINNER_LACE, GARTER),
                     TREASURER,
                     "+32494/25.56.10",
@@ -149,28 +154,86 @@ public class MemberService {
             Member member3 = memberFactory.createMember(
                     "Paul",
                     "Gerarts",
-                    addressFactory.createAddress("Ophovenstraat", "125", "1A", "3500", "Genk"),
-                    "1997-11-24",
+                    addressFactory.createAddress("Ophovenstraat", 125, "1A", 3500, "Genk"),
+                    LocalDate.parse("1997-11-24", formatter),
+                    Set.of(BEGINNER_LACE),
+                    VICE_PRESIDENT,
+                    "089/14.23.56",
+                    "test@gmail.be");
+            Member member4 = memberFactory.createMember(
+                    "Paul",
+                    "Gerarts",
+                    addressFactory.createAddress("Ophovenstraat", 125, "1A", 3500, "Genk"),
+                    LocalDate.parse("1997-11-24", formatter),
+                    Set.of(BEGINNER_LACE),
+                    VICE_PRESIDENT,
+                    "089/14.23.56",
+                    "test@gmail.be");
+            Member member5 = memberFactory.createMember(
+                    "Paul",
+                    "Gerarts",
+                    addressFactory.createAddress("Ophovenstraat", 125, "1A", 3500, "Genk"),
+                    LocalDate.parse("1997-11-24", formatter),
+                    Set.of(BEGINNER_LACE),
+                    VICE_PRESIDENT,
+                    "089/14.23.56",
+                    "test@gmail.be");
+            Member member6 = memberFactory.createMember(
+                    "Paul",
+                    "Gerarts",
+                    addressFactory.createAddress("Ophovenstraat", 125, "1A", 3500, "Genk"),
+                    LocalDate.parse("1997-11-24", formatter),
+                    Set.of(BEGINNER_LACE),
+                    VICE_PRESIDENT,
+                    "089/14.23.56",
+                    "test@gmail.be");
+            Member member7 = memberFactory.createMember(
+                    "Paul",
+                    "Gerarts",
+                    addressFactory.createAddress("Ophovenstraat", 125, "1A", 3500, "Genk"),
+                    LocalDate.parse("1997-11-24", formatter),
+                    Set.of(BEGINNER_LACE),
+                    VICE_PRESIDENT,
+                    "089/14.23.56",
+                    "test@gmail.be");
+            Member member8 = memberFactory.createMember(
+                    "Paul",
+                    "Gerarts",
+                    addressFactory.createAddress("Ophovenstraat", 125, "1A", 3500, "Genk"),
+                    LocalDate.parse("1997-11-24", formatter),
+                    Set.of(BEGINNER_LACE),
+                    VICE_PRESIDENT,
+                    "089/14.23.56",
+                    "test@gmail.be");
+            Member member9 = memberFactory.createMember(
+                    "Paul",
+                    "Gerarts",
+                    addressFactory.createAddress("Ophovenstraat", 125, "1A", 3500, "Genk"),
+                    LocalDate.parse("1997-11-24", formatter),
+                    Set.of(BEGINNER_LACE),
+                    VICE_PRESIDENT,
+                    "089/14.23.56",
+                    "test@gmail.be");
+            Member member10 = memberFactory.createMember(
+                    "Paul",
+                    "Gerarts",
+                    addressFactory.createAddress("Ophovenstraat", 125, "1A", 3500, "Genk"),
+                    LocalDate.parse("1997-11-24", formatter),
                     Set.of(BEGINNER_LACE),
                     VICE_PRESIDENT,
                     "089/14.23.56",
                     "test@gmail.be");
             memberRepository.saveAll(List.of(
                     member1,
-                    member1,
-                    member1,
-                    member1,
-                    member1,
-                    member2,
-                    member2,
-                    member2,
-                    member2,
                     member2,
                     member3,
-                    member3,
-                    member3,
-                    member3,
-                    member3
+                    member4,
+                    member5,
+                    member6,
+                    member7,
+                    member8,
+                    member9,
+                    member10
             ));
         }
     }

@@ -25,11 +25,11 @@ public class Address {
 
     private String street;
 
-    private String number;
+    private Integer number;
 
     private String postBox;
 
-    private String zipCode;
+    private Integer zipCode;
 
     private String city;
 

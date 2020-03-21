@@ -2,14 +2,11 @@ package com.springrestthymeleaf.excercise.entities.dtos;
 
 import com.springrestthymeleaf.excercise.entities.KnittingStiches;
 import com.springrestthymeleaf.excercise.entities.MemberShipRoles;
-import com.springrestthymeleaf.excercise.validation.Birthday;
 import com.springrestthymeleaf.excercise.validation.PhoneNumber;
 import lombok.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
@@ -17,7 +14,6 @@ import java.util.Set;
 @ToString
 @Builder
 @RequiredArgsConstructor
-@NotNull
 public class MemberDto {
 
     private final Long id;
@@ -30,20 +26,21 @@ public class MemberDto {
     private final String email;
     @NotBlank
     private final String street;
-    @NotBlank
-    private final String number;
+    @NotNull
+    @Positive
+    private final Integer number;
     @NotBlank
     private final String postBox;
-    @NotBlank
-    private final String zipCode;
+    @NotNull
+    @Positive
+    private final Integer zipCode;
     @NotBlank
     private final String city;
-    @NotBlank
     @PhoneNumber
     private final String phoneNumber;
-    @NotBlank
-    @Birthday
-    private final String birthDate;
+    @NotNull
+    @Past
+    private final LocalDate birthDate;
     @NotNull
     private final MemberShipRoles role;
     @Size(min = 1)

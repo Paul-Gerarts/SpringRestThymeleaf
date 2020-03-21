@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AddressFactory {
 
-    public Address createAddress(String street, String number, String postBox, String postalCode, String city) {
+    public Address createAddress(String street, Integer number, String postBox, Integer postalCode, String city) {
         return Address.builder()
                 .street(street)
                 .number(number)

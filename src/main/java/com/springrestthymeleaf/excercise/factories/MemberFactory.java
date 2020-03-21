@@ -7,18 +7,15 @@ import com.springrestthymeleaf.excercise.entities.MemberShipRoles;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 @Component
 public class MemberFactory {
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
     public Member createMember(String firstName,
                                String lastName,
                                Address address,
-                               String birthday,
+                               LocalDate birthday,
                                Set<KnittingStiches> knittingstiches,
                                MemberShipRoles role,
                                String phoneNumber,
@@ -27,7 +24,7 @@ public class MemberFactory {
                 .firstName(firstName)
                 .lastName(lastName)
                 .address(address)
-                .birthDate(LocalDate.parse(birthday, formatter))
+                .birthDate(birthday)
                 .knownStitches(knittingstiches)
                 .role(role)
                 .phoneNumber(phoneNumber)

@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PhoneNumberValidator  implements ConstraintValidator<PhoneNumber, String> {
+public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, String> {
 
     @Override
     public void initialize(PhoneNumber constraintAnnotation) {
@@ -13,6 +13,9 @@ public class PhoneNumberValidator  implements ConstraintValidator<PhoneNumber, S
 
     @Override
     public boolean isValid(String phoneNumber, ConstraintValidatorContext constraintValidatorContext) {
+        if (null == phoneNumber || phoneNumber.isBlank()) {
+            return false;
+        }
         Pattern regular = Pattern.compile("\\d{3,4}/(\\d{2}.){2}\\d{2}");
         Pattern landCodePrefix = Pattern.compile("\\+\\d{4,5}/(\\d{2}.){2}\\d{2}");
         Matcher matcher1 = regular.matcher(phoneNumber.trim());

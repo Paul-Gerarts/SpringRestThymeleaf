@@ -63,7 +63,7 @@ public class MemberController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> handleForm(@PathVariable("id") Long id, @RequestBody MemberDto form, BindingResult bindingResult) {
+    public ResponseEntity<?> handleForm(@PathVariable("id") Long id, @RequestBody @Valid MemberDto form, BindingResult bindingResult) {
         return ResponseEntity.status(204).body(memberService.updateMemberImpl(id, form, bindingResult));
     }
 
