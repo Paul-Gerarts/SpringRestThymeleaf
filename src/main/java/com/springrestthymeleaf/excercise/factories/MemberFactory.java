@@ -1,9 +1,6 @@
 package com.springrestthymeleaf.excercise.factories;
 
-import com.springrestthymeleaf.excercise.entities.Address;
-import com.springrestthymeleaf.excercise.entities.Member;
-import com.springrestthymeleaf.excercise.entities.MemberShipRoles;
-import com.springrestthymeleaf.excercise.entities.SecurityRoles;
+import com.springrestthymeleaf.excercise.entities.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -22,7 +19,7 @@ public class MemberFactory {
                                String lastName,
                                Address address,
                                String birthday,
-                               Set<String> knittingstiches,
+                               Set<KnittingStiches> knittingstiches,
                                MemberShipRoles role,
                                String phoneNumber,
                                String email) {

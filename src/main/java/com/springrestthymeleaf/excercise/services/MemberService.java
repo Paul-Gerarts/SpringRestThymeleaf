@@ -84,25 +84,6 @@ public class MemberService {
                 ));
     }
 
-   /* public MemberDto mapToDto(Member member) {
-        return MemberDto.builder()
-                .id(member.getId())
-                .securityRole(member.getSecurityRoles().getName())
-                .firstName(member.getFirstName())
-                .lastName(member.getLastName())
-                .street(member.getAddress().getStreet())
-                .number(member.getAddress().getNumber())
-                .postBox(member.getAddress().getPostBox())
-                .zipCode(member.getAddress().getZipCode())
-                .city(member.getAddress().getCity())
-                .birthDate(member.getBirthDate().toString())
-                .knownStitches(member.getKnownStitches())
-                .role(member.getRole())
-                .phoneNumber(member.getPhoneNumber())
-                .email(member.getEmail())
-                .build();
-    }*/
-
     public MemberListItem mapToListItem(Member member) {
         return MemberListItem.builder()
                 .id(member.getId())
@@ -166,7 +147,7 @@ public class MemberService {
                             "Swennen",
                             addressFactory.createAddress("Kanaalstraat", "59", "1B", "3680", "Neeroeteren"),
                             "1987-06-24",
-                            Set.of(CABLE.getName(), STOCKINETTE.getName()),
+                            Set.of(CABLE, STOCKINETTE),
                             PRESIDENT,
                             "089/86.12.30",
                             "test@email.com"),
@@ -178,7 +159,7 @@ public class MemberService {
                             "Stefens",
                             addressFactory.createAddress("Gruitroderkiezel", "47", "2A", "3960", "Bree"),
                             "1956-09-15",
-                            Set.of(BEGINNER_LACE.getName(), GARTER.getName()),
+                            Set.of(BEGINNER_LACE, GARTER),
                             TREASURER,
                             "+32494/25.56.10",
                             "email@yahoo.be"),
@@ -190,7 +171,7 @@ public class MemberService {
                             "Gerarts",
                             addressFactory.createAddress("Ophovenstraat", "125", "1A", "3500", "Genk"),
                             "1997-11-24",
-                            Set.of(BEGINNER_LACE.getName()),
+                            Set.of(BEGINNER_LACE),
                             VICE_PRESIDENT,
                             "089/14.23.56",
                             "test@gmail.be"

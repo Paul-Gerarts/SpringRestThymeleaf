@@ -1,5 +1,6 @@
 package com.springrestthymeleaf.excercise.entities.dtos;
 
+import com.springrestthymeleaf.excercise.entities.KnittingStiches;
 import com.springrestthymeleaf.excercise.entities.MemberShipRoles;
 import com.springrestthymeleaf.excercise.validation.Birthday;
 import com.springrestthymeleaf.excercise.validation.PhoneNumber;
@@ -47,5 +48,5 @@ public class MemberDto {
     @NotBlank
     private final MemberShipRoles role;
     @Size(min = 1)
-    private final Set<String> knownStitches;
+    private final Set<KnittingStiches> knownStitches;
 }
