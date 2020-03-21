@@ -21,12 +21,6 @@ public class Member {
     @Column(name = "id")
     private Long id;
 
-    private String userName;
-
-    private String password;
-
-    private SecurityRoles securityRoles;
-
     private String firstName;
 
     private String lastName;

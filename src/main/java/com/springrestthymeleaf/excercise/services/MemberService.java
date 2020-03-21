@@ -1,7 +1,6 @@
 package com.springrestthymeleaf.excercise.services;
 
 import com.springrestthymeleaf.excercise.entities.Member;
-import com.springrestthymeleaf.excercise.entities.SecurityRoles;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberDto;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberList;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberListItem;
@@ -14,7 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -72,9 +70,6 @@ public class MemberService {
         memberRepository.save(
                 memberFactory.createMember(
                         dto.getFirstName(),
-                        new BCryptPasswordEncoder().encode(dto.getLastName()),
-                        getRoleByName(dto.getSecurityRole()),
-                        dto.getFirstName(),
                         dto.getLastName(),
                         addressFactory.createAddress(dto.getStreet(), dto.getNumber(), dto.getPostBox(), dto.getZipCode(), dto.getCity()),
                         dto.getBirthDate(),
@@ -93,18 +88,6 @@ public class MemberService {
                 .role(member.getRole().getName())
                 .knownStitches(member.getKnownStitches().size())
                 .build();
-    }
-
-    public SecurityRoles getRoleByName(String roleName) {
-        switch (roleName) {
-            case "super-admin":
-                return SecurityRoles.SUPER_ADMIN;
-            case "admin":
-                return SecurityRoles.ADMIN;
-            default:
-            case "reader":
-                return SecurityRoles.READER;
-        }
     }
 
     public ResponseEntity<?> addMemberImpl(@ModelAttribute("myform") @Valid MemberDto form, BindingResult bindingResult) {
@@ -141,9 +124,6 @@ public class MemberService {
         if (memberRepository.count() == 0) {
             memberRepository.saveAll(List.of(
                     memberFactory.createMember(
-                            "admin",
-                            new BCryptPasswordEncoder().encode("admin"),
-                            SecurityRoles.ADMIN,
                             "Jef",
                             "Swennen",
                             addressFactory.createAddress("Kanaalstraat", "59", "1B", "3680", "Neeroeteren"),
@@ -153,9 +133,6 @@ public class MemberService {
                             "089/86.12.30",
                             "test@email.com"),
                     memberFactory.createMember(
-                            "user",
-                            new BCryptPasswordEncoder().encode("password"),
-                            SecurityRoles.READER,
                             "Maria",
                             "Stefens",
                             addressFactory.createAddress("Gruitroderkiezel", "47", "2A", "3960", "Bree"),
@@ -165,9 +142,6 @@ public class MemberService {
                             "+32494/25.56.10",
                             "email@yahoo.be"),
                     memberFactory.createMember(
-                            "super-admin",
-                            new BCryptPasswordEncoder().encode("super-admin"),
-                            SecurityRoles.SUPER_ADMIN,
                             "Paul",
                             "Gerarts",
                             addressFactory.createAddress("Ophovenstraat", "125", "1A", "3500", "Genk"),
@@ -175,8 +149,8 @@ public class MemberService {
                             Set.of(BEGINNER_LACE),
                             VICE_PRESIDENT,
                             "089/14.23.56",
-                            "test@gmail.be"
-                    )));
+                            "test@gmail.be")
+            ));
         }
     }
 

@@ -8,7 +8,6 @@ import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -20,8 +19,6 @@ import java.util.Set;
 public class MemberDto {
 
     private final Long id;
-    @Pattern(regexp = "user|admin|super-admin")
-    private final String securityRole;
     @NotBlank
     private final String firstName;
     @NotBlank

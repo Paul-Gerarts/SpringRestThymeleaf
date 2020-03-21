@@ -1,34 +1,33 @@
 package com.springrestthymeleaf.excercise.security;
 
-import com.springrestthymeleaf.excercise.entities.Member;
-import com.springrestthymeleaf.excercise.repositories.MemberRepository;
+import com.springrestthymeleaf.excercise.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 
-@Service
+@Component
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private UserService userService;
 
     public CustomUserDetailsService() {
     }
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Member member = memberRepository.findByUserName(userName);
-        return new User(userName, member.getPassword(),
+        com.springrestthymeleaf.excercise.entities.User user = userService.findByUserName(userName);
+        return new User(userName, user.getPassword(),
                 true,
                 true,
                 true,
                 true,
-                Collections.singletonList(new SimpleGrantedAuthority(member.getSecurityRoles().getAuthority())));
+                Collections.singletonList(new SimpleGrantedAuthority(user.getSecurityRoles().getAuthority())));
     }
 }

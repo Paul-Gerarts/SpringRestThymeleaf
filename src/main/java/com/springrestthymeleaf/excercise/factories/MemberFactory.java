@@ -1,6 +1,9 @@
 package com.springrestthymeleaf.excercise.factories;
 
-import com.springrestthymeleaf.excercise.entities.*;
+import com.springrestthymeleaf.excercise.entities.Address;
+import com.springrestthymeleaf.excercise.entities.KnittingStiches;
+import com.springrestthymeleaf.excercise.entities.Member;
+import com.springrestthymeleaf.excercise.entities.MemberShipRoles;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -12,10 +15,7 @@ public class MemberFactory {
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public Member createMember(String userName,
-                               String password,
-                               SecurityRoles securityRoles,
-                               String firstName,
+    public Member createMember(String firstName,
                                String lastName,
                                Address address,
                                String birthday,
@@ -24,9 +24,6 @@ public class MemberFactory {
                                String phoneNumber,
                                String email) {
         return Member.builder()
-                .userName(userName)
-                .password(password)
-                .securityRoles(securityRoles)
                 .firstName(firstName)
                 .lastName(lastName)
                 .address(address)
