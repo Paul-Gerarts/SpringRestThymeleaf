@@ -37,6 +37,6 @@ public class Member {
 
     private MemberShipRoles role;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<KnittingStiches> knownStitches;
 }

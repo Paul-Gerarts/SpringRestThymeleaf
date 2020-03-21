@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 @ToString
 @Builder
 @RequiredArgsConstructor
+@NotNull
 public class MemberDto {
 
     private final Long id;
@@ -42,7 +44,7 @@ public class MemberDto {
     @NotBlank
     @Birthday
     private final String birthDate;
-    @NotBlank
+    @NotNull
     private final MemberShipRoles role;
     @Size(min = 1)
     private final Set<KnittingStiches> knownStitches;

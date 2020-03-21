@@ -15,18 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-import javax.validation.Valid;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.springrestthymeleaf.excercise.entities.KnittingStiches.*;
 import static com.springrestthymeleaf.excercise.entities.MemberShipRoles.*;
+import static com.springrestthymeleaf.excercise.utils.Utilities.copyNonNullProperties;
 
 @Data
 @Service
@@ -48,8 +46,7 @@ public class MemberService {
     }
 
     public Member findById(Long id) {
-        Optional<Member> member = findMember(id);
-        return member.orElse(Member.builder().build());
+        return findMember(id);
     }
 
     public MemberList findShortList() {
@@ -61,8 +58,8 @@ public class MemberService {
         return memberList;
     }
 
-    private Optional<Member> findMember(Long id) {
-        return Optional.of(memberRepository.findById(id))
+    private Member findMember(Long id) {
+        return memberRepository.findById(id)
                 .orElseThrow(() -> new MemberNotFoundException("Het lid met het opgegeven id bestaat niet"));
     }
 
@@ -80,6 +77,13 @@ public class MemberService {
                 ));
     }
 
+    public void update(Long id, MemberDto dto) {
+        final Member memberToUpdate = findMember(id);
+        copyNonNullProperties(dto, memberToUpdate.getAddress());
+        copyNonNullProperties(dto, memberToUpdate);
+        memberRepository.save(memberToUpdate);
+    }
+
     public MemberListItem mapToListItem(Member member) {
         return MemberListItem.builder()
                 .id(member.getId())
@@ -90,8 +94,13 @@ public class MemberService {
                 .build();
     }
 
-    public ResponseEntity<?> addMemberImpl(@ModelAttribute("myform") @Valid MemberDto form, BindingResult bindingResult) {
+    public ResponseEntity<?> addMemberImpl(MemberDto form, BindingResult bindingResult) {
         save(form);
+        return errorCheck(form, bindingResult);
+    }
+
+    public ResponseEntity<?> updateMemberImpl(Long id, MemberDto form, BindingResult bindingResult) {
+        update(id, form);
         return errorCheck(form, bindingResult);
     }
 
@@ -112,46 +121,57 @@ public class MemberService {
     }
 
     public Member deleteMember(Long id) {
-        Optional<Member> memberToDelete = findMember(id);
-        if (memberToDelete.isPresent()) {
-            memberRepository.delete(memberToDelete.get());
-            return memberToDelete.get();
-        }
-        return null;
+        Member memberToDelete = findMember(id);
+        memberRepository.delete(memberToDelete);
+        return memberToDelete;
     }
 
     public void createTestData() {
         if (memberRepository.count() == 0) {
+            Member member1 = memberFactory.createMember(
+                    "Jef",
+                    "Swennen",
+                    addressFactory.createAddress("Kanaalstraat", "59", "1B", "3680", "Neeroeteren"),
+                    "1987-06-24",
+                    Set.of(CABLE, STOCKINETTE),
+                    PRESIDENT,
+                    "089/86.12.30",
+                    "test@email.com");
+            Member member2 = memberFactory.createMember(
+                    "Maria",
+                    "Stefens",
+                    addressFactory.createAddress("Gruitroderkiezel", "47", "2A", "3960", "Bree"),
+                    "1956-09-15",
+                    Set.of(BEGINNER_LACE, GARTER),
+                    TREASURER,
+                    "+32494/25.56.10",
+                    "email@yahoo.be");
+            Member member3 = memberFactory.createMember(
+                    "Paul",
+                    "Gerarts",
+                    addressFactory.createAddress("Ophovenstraat", "125", "1A", "3500", "Genk"),
+                    "1997-11-24",
+                    Set.of(BEGINNER_LACE),
+                    VICE_PRESIDENT,
+                    "089/14.23.56",
+                    "test@gmail.be");
             memberRepository.saveAll(List.of(
-                    memberFactory.createMember(
-                            "Jef",
-                            "Swennen",
-                            addressFactory.createAddress("Kanaalstraat", "59", "1B", "3680", "Neeroeteren"),
-                            "1987-06-24",
-                            Set.of(CABLE, STOCKINETTE),
-                            PRESIDENT,
-                            "089/86.12.30",
-                            "test@email.com"),
-                    memberFactory.createMember(
-                            "Maria",
-                            "Stefens",
-                            addressFactory.createAddress("Gruitroderkiezel", "47", "2A", "3960", "Bree"),
-                            "1956-09-15",
-                            Set.of(BEGINNER_LACE, GARTER),
-                            TREASURER,
-                            "+32494/25.56.10",
-                            "email@yahoo.be"),
-                    memberFactory.createMember(
-                            "Paul",
-                            "Gerarts",
-                            addressFactory.createAddress("Ophovenstraat", "125", "1A", "3500", "Genk"),
-                            "1997-11-24",
-                            Set.of(BEGINNER_LACE),
-                            VICE_PRESIDENT,
-                            "089/14.23.56",
-                            "test@gmail.be")
+                    member1,
+                    member1,
+                    member1,
+                    member1,
+                    member1,
+                    member2,
+                    member2,
+                    member2,
+                    member2,
+                    member2,
+                    member3,
+                    member3,
+                    member3,
+                    member3,
+                    member3
             ));
         }
     }
-
 }

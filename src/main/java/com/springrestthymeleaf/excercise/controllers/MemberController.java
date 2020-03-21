@@ -58,17 +58,17 @@ public class MemberController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> addMember(@Valid MemberDto form, BindingResult bindingResult) {
+    public ResponseEntity<?> addMember(@Valid @RequestBody MemberDto form, BindingResult bindingResult) {
         return ResponseEntity.status(201).body(memberService.addMemberImpl(form, bindingResult));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> handleForm(@Valid MemberDto form, BindingResult bindingResult) {
-        return ResponseEntity.status(204).body(memberService.addMemberImpl(form, bindingResult));
+    public ResponseEntity<?> handleForm(@PathVariable("id") Long id, @RequestBody MemberDto form, BindingResult bindingResult) {
+        return ResponseEntity.status(204).body(memberService.updateMemberImpl(id, form, bindingResult));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteMember(@PathVariable Long id) {
+    public ResponseEntity<?> deleteMember(@PathVariable("id") Long id) {
         return ResponseEntity.status(204).body(memberService.deleteMember(id));
     }
 }

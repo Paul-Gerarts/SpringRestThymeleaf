@@ -5,11 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table
@@ -25,20 +23,14 @@ public class Address {
     @JsonIgnore
     private Long id;
 
-    @NotBlank
     private String street;
 
-    @NotBlank
     private String number;
 
-    @NotBlank
     private String postBox;
 
-    @NotBlank
-    @NonNull
     private String zipCode;
 
-    @NotBlank
     private String city;
 
     @OneToOne(mappedBy = "address")
