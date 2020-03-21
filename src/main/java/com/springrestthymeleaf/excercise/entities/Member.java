@@ -44,5 +44,5 @@ public class Member {
     private String role;
 
     @ElementCollection
-    private Set<String> knittingStiches;
+    private Set<String> knownStitches;
 }

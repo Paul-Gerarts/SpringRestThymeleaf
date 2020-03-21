@@ -33,7 +33,7 @@ public class MemberFactory {
                 .lastName(lastName)
                 .address(address)
                 .birthDate(LocalDate.parse(birthday, formatter))
-                .knittingStiches(knittingstiches)
+                .knownStitches(knittingstiches)
                 .role(role)
                 .phoneNumber(phoneNumber)
                 .email(email)

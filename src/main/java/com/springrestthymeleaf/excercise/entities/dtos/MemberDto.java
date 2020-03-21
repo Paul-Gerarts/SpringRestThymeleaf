@@ -31,7 +31,7 @@ public class MemberDto {
     private final String street;
     @NotBlank
     private final String number;
-    @NonNull
+    @NotBlank
     private final String postBox;
     @NotBlank
     private final String zipCode;
@@ -46,5 +46,5 @@ public class MemberDto {
     @NotBlank
     private final String role;
     @Size(min = 1)
-    private final Set<String> knittingStiches;
+    private final Set<String> knownStitches;
 }

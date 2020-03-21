@@ -4,7 +4,6 @@ import com.springrestthymeleaf.excercise.entities.KnittingStiches;
 import com.springrestthymeleaf.excercise.entities.MemberShipRoles;
 import com.springrestthymeleaf.excercise.entities.SecurityRoles;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberDto;
-import com.springrestthymeleaf.excercise.repositories.MemberRepository;
 import com.springrestthymeleaf.excercise.services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +22,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/members")
 public class MemberController {
 
-    private MemberRepository memberRepository;
     private MemberService memberService;
 
     @Autowired
-    public MemberController(MemberRepository memberRepository, MemberService memberService) {
-        this.memberRepository = memberRepository;
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 
@@ -53,7 +50,7 @@ public class MemberController {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    @GetMapping
+    @GetMapping()
     @PreAuthorize("hasAnyRole(T(com.springrestthymeleaf.excercise.security.SecurityUtils).ALL_PERMISSIONS)")
     public ResponseEntity<?> handleGet() {
         return ResponseEntity.status(200).body(memberService.findShortList());
@@ -79,13 +76,13 @@ public class MemberController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole(T(com.springrestthymeleaf.excercise.security.SecurityUtils).ADMINS)")
-    public ResponseEntity<?> handleForm(@Valid @ModelAttribute("myform") MemberDto form, BindingResult bindingResult) {
+    public ResponseEntity<?> handleForm(@Valid MemberDto form, BindingResult bindingResult) {
         return ResponseEntity.status(204).body(memberService.addMemberImpl(form, bindingResult));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<?> deleteMember(@ModelAttribute("myform") MemberDto form, BindingResult bindingResult) {
-        return ResponseEntity.status(204).body(memberService.deleteMember(form, bindingResult));
+    public ResponseEntity<?> deleteMember(@PathVariable Long id) {
+        return ResponseEntity.status(204).body(memberService.deleteMember(id));
     }
 }

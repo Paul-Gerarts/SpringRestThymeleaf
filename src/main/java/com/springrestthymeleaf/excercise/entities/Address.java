@@ -10,7 +10,6 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
 @Entity
 @Table
@@ -30,10 +29,9 @@ public class Address {
     private String street;
 
     @NotBlank
-    @Pattern(regexp = "\\d")
     private String number;
 
-    @NonNull
+    @NotBlank
     private String postBox;
 
     @NotBlank

@@ -77,7 +77,7 @@ public class MemberService {
                         dto.getLastName(),
                         addressFactory.createAddress(dto.getStreet(), dto.getNumber(), dto.getPostBox(), dto.getZipCode(), dto.getCity()),
                         dto.getBirthDate(),
-                        dto.getKnittingStiches(),
+                        dto.getKnownStitches(),
                         dto.getRole(),
                         dto.getPhoneNumber(),
                         dto.getEmail()
@@ -96,7 +96,7 @@ public class MemberService {
                 .zipCode(member.getAddress().getZipCode())
                 .city(member.getAddress().getCity())
                 .birthDate(member.getBirthDate().toString())
-                .knittingStiches(member.getKnittingStiches())
+                .knownStitches(member.getKnownStitches())
                 .role(member.getRole())
                 .phoneNumber(member.getPhoneNumber())
                 .email(member.getEmail())
@@ -109,7 +109,7 @@ public class MemberService {
                 .name(member.getFirstName() + " " + member.getLastName())
                 .email(member.getEmail())
                 .role(member.getRole())
-                .knownStitches(member.getKnittingStiches().size())
+                .knownStitches(member.getKnownStitches().size())
                 .build();
     }
 
@@ -146,10 +146,13 @@ public class MemberService {
         return ResponseEntity.status(201).body(form);
     }
 
-    public ResponseEntity<?> deleteMember(@ModelAttribute("myform") @Valid MemberDto form, BindingResult bindingResult) {
-        Optional<Member> memberToDelete = findMember(form.getId());
-        memberRepository.delete(memberToDelete.orElseThrow());
-        return errorCheck(form, bindingResult);
+    public Member deleteMember(Long id) {
+        Optional<Member> memberToDelete = findMember(id);
+        if (memberToDelete.isPresent()) {
+            memberRepository.delete(memberToDelete.get());
+            return memberToDelete.get();
+        }
+        return null;
     }
 
     public void createTestData() {
@@ -161,7 +164,7 @@ public class MemberService {
                             SecurityRoles.ADMIN,
                             "Jef",
                             "Swennen",
-                            addressFactory.createAddress("Kanaalstraat", "59", "", "3680", "Neeroeteren"),
+                            addressFactory.createAddress("Kanaalstraat", "59", "1B", "3680", "Neeroeteren"),
                             "1987-06-24",
                             Set.of(CABLE.getName(), STOCKINETTE.getName()),
                             PRESIDENT.getName(),
@@ -173,7 +176,7 @@ public class MemberService {
                             SecurityRoles.READER,
                             "Maria",
                             "Stefens",
-                            addressFactory.createAddress("Gruitroderkiezel", "47", "", "3960", "Bree"),
+                            addressFactory.createAddress("Gruitroderkiezel", "47", "2A", "3960", "Bree"),
                             "1956-09-15",
                             Set.of(BEGINNER_LACE.getName(), GARTER.getName()),
                             TREASURER.getName(),
