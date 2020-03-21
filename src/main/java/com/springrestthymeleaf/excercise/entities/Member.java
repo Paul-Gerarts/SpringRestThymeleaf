@@ -41,7 +41,7 @@ public class Member {
 
     private LocalDate birthDate;
 
-    private String role;
+    private MemberShipRoles role;
 
     @ElementCollection
     private Set<String> knownStitches;

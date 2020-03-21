@@ -84,7 +84,7 @@ public class MemberService {
                 ));
     }
 
-    public MemberDto mapToDto(Member member) {
+   /* public MemberDto mapToDto(Member member) {
         return MemberDto.builder()
                 .id(member.getId())
                 .securityRole(member.getSecurityRoles().getName())
@@ -101,14 +101,14 @@ public class MemberService {
                 .phoneNumber(member.getPhoneNumber())
                 .email(member.getEmail())
                 .build();
-    }
+    }*/
 
     public MemberListItem mapToListItem(Member member) {
         return MemberListItem.builder()
                 .id(member.getId())
                 .name(member.getFirstName() + " " + member.getLastName())
                 .email(member.getEmail())
-                .role(member.getRole())
+                .role(member.getRole().getName())
                 .knownStitches(member.getKnownStitches().size())
                 .build();
     }
@@ -167,7 +167,7 @@ public class MemberService {
                             addressFactory.createAddress("Kanaalstraat", "59", "1B", "3680", "Neeroeteren"),
                             "1987-06-24",
                             Set.of(CABLE.getName(), STOCKINETTE.getName()),
-                            PRESIDENT.getName(),
+                            PRESIDENT,
                             "089/86.12.30",
                             "test@email.com"),
                     memberFactory.createMember(
@@ -179,7 +179,7 @@ public class MemberService {
                             addressFactory.createAddress("Gruitroderkiezel", "47", "2A", "3960", "Bree"),
                             "1956-09-15",
                             Set.of(BEGINNER_LACE.getName(), GARTER.getName()),
-                            TREASURER.getName(),
+                            TREASURER,
                             "+32494/25.56.10",
                             "email@yahoo.be"),
                     memberFactory.createMember(
@@ -191,7 +191,7 @@ public class MemberService {
                             addressFactory.createAddress("Ophovenstraat", "125", "1A", "3500", "Genk"),
                             "1997-11-24",
                             Set.of(BEGINNER_LACE.getName()),
-                            VICE_PRESIDENT.getName(),
+                            VICE_PRESIDENT,
                             "089/14.23.56",
                             "test@gmail.be"
                     )));

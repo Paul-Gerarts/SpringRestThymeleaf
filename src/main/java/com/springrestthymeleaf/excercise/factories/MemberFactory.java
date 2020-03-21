@@ -2,6 +2,7 @@ package com.springrestthymeleaf.excercise.factories;
 
 import com.springrestthymeleaf.excercise.entities.Address;
 import com.springrestthymeleaf.excercise.entities.Member;
+import com.springrestthymeleaf.excercise.entities.MemberShipRoles;
 import com.springrestthymeleaf.excercise.entities.SecurityRoles;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ public class MemberFactory {
                                Address address,
                                String birthday,
                                Set<String> knittingstiches,
-                               String role,
+                               MemberShipRoles role,
                                String phoneNumber,
                                String email) {
         return Member.builder()
