@@ -9,13 +9,13 @@ public class SecurityUtils {
     }
 
     public static final String[] ALL_PERMISSIONS = {
-            SecurityRoles.READER.getName(),
-            SecurityRoles.ADMIN.getName(),
-            SecurityRoles.SUPER_ADMIN.getName(),
+            SecurityRoles.READER.getAuthority(),
+            SecurityRoles.ADMIN.getAuthority(),
+            SecurityRoles.SUPER_ADMIN.getAuthority(),
     };
 
     public static final String[] ADMINS = {
-            SecurityRoles.ADMIN.getName(),
-            SecurityRoles.SUPER_ADMIN.getName(),
+            SecurityRoles.ADMIN.getAuthority(),
+            SecurityRoles.SUPER_ADMIN.getAuthority(),
     };
 }
