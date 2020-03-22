@@ -4,6 +4,7 @@ import com.springrestthymeleaf.excercise.entities.KnittingStiches;
 import com.springrestthymeleaf.excercise.entities.MemberShipRoles;
 import com.springrestthymeleaf.excercise.validation.PhoneNumber;
 import lombok.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.Set;
 @ToString
 @Builder
 @RequiredArgsConstructor
+@Validated
 public class MemberDto {
 
     private final Long id;
@@ -24,18 +26,8 @@ public class MemberDto {
     @NotBlank
     @Email
     private final String email;
-    @NotBlank
-    private final String street;
     @NotNull
-    @Positive
-    private final Integer number;
-    @NotBlank
-    private final String postBox;
-    @NotNull
-    @Positive
-    private final Integer zipCode;
-    @NotBlank
-    private final String city;
+    private final AddressDto address;
     @PhoneNumber
     private final String phoneNumber;
     @NotNull

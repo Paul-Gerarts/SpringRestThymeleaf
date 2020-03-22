@@ -13,14 +13,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -65,12 +62,12 @@ public class MemberService {
                 .orElseThrow(() -> new MemberNotFoundException("Het lid met het opgegeven id bestaat niet"));
     }
 
-    public void save(MemberDto dto) {
-        memberRepository.save(
+    public Member save(MemberDto dto) {
+        return memberRepository.save(
                 memberFactory.createMember(
                         dto.getFirstName(),
                         dto.getLastName(),
-                        addressFactory.createAddress(dto.getStreet(), dto.getNumber(), dto.getPostBox(), dto.getZipCode(), dto.getCity()),
+                        addressFactory.createAddress(dto.getAddress().getStreet(), dto.getAddress().getNumber(), dto.getAddress().getPostBox(), dto.getAddress().getZipCode(), dto.getAddress().getCity()),
                         dto.getBirthDate(),
                         dto.getKnownStitches(),
                         dto.getRole(),
@@ -79,14 +76,13 @@ public class MemberService {
                 ));
     }
 
-    public void update(Long id, MemberDto dto) {
+    public Member update(Long id, MemberDto dto) {
         final Member memberToUpdate = findMember(id);
         if (!id.equals(dto.getId())) {
             throw new InvalidIdException("The corresponding id's do not match");
         }
-        copyNonNullProperties(dto, memberToUpdate.getAddress());
         copyNonNullProperties(dto, memberToUpdate);
-        memberRepository.save(memberToUpdate);
+        return memberRepository.save(memberToUpdate);
     }
 
     public MemberListItem mapToListItem(Member member) {
@@ -99,30 +95,12 @@ public class MemberService {
                 .build();
     }
 
-    public ResponseEntity<?> addMemberImpl(MemberDto form, BindingResult bindingResult) {
-        save(form);
-        return errorCheck(form, bindingResult);
+    public Member addMemberImpl(MemberDto form) {
+        return save(form);
     }
 
-    public ResponseEntity<?> updateMemberImpl(Long id, MemberDto form, BindingResult bindingResult) {
-        update(id, form);
-        return errorCheck(form, bindingResult);
-    }
-
-    private ResponseEntity<?> errorCheck(MemberDto form, BindingResult bindingResult) {
-        int responseCode = 200;
-        if (bindingResult.hasErrors()) {
-            for (String code : Objects.requireNonNull(Objects.requireNonNull(bindingResult.getFieldError()).getCodes())) {
-                try {
-                    responseCode = Integer.parseInt(code);
-                } catch (NumberFormatException e) {
-                    log.error(e.getMessage());
-                }
-                log.error(code);
-            }
-            return ResponseEntity.status(responseCode).body(form);
-        }
-        return ResponseEntity.status(201).body(form);
+    public Member updateMemberImpl(Long id, MemberDto form) {
+        return update(id, form);
     }
 
     public Member deleteMember(Long id) {

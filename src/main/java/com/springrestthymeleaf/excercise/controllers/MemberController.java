@@ -7,7 +7,6 @@ import com.springrestthymeleaf.excercise.entities.dtos.MemberDto;
 import com.springrestthymeleaf.excercise.services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -58,13 +57,13 @@ public class MemberController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> addMember(@Valid @RequestBody MemberDto form, BindingResult bindingResult) {
-        return ResponseEntity.status(201).body(memberService.addMemberImpl(form, bindingResult));
+    public ResponseEntity<?> addMember(@Valid @RequestBody MemberDto form) {
+        return ResponseEntity.status(201).body(memberService.addMemberImpl(form));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> handleForm(@PathVariable("id") Long id, @RequestBody @Valid MemberDto form, BindingResult bindingResult) {
-        return ResponseEntity.status(204).body(memberService.updateMemberImpl(id, form, bindingResult));
+    public ResponseEntity<?> handleForm(@PathVariable("id") Long id, @RequestBody @Valid MemberDto form) {
+        return ResponseEntity.status(204).body(memberService.updateMemberImpl(id, form));
     }
 
     @DeleteMapping("/{id}")
