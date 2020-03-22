@@ -8,6 +8,9 @@ public class SecurityUtils {
 
     }
 
+    /*
+     *array of authorized roles in case of multiple roles allowed per endpoint
+     */
     public static final String[] ALL_PERMISSIONS = {
             SecurityRoles.READER.getAuthority(),
             SecurityRoles.ADMIN.getAuthority(),

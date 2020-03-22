@@ -1,8 +1,5 @@
 package com.springrestthymeleaf.excercise.controllers;
 
-import com.springrestthymeleaf.excercise.entities.KnittingStiches;
-import com.springrestthymeleaf.excercise.entities.MemberShipRoles;
-import com.springrestthymeleaf.excercise.entities.SecurityRoles;
 import com.springrestthymeleaf.excercise.entities.dtos.MemberDto;
 import com.springrestthymeleaf.excercise.services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/members")
@@ -23,27 +17,6 @@ public class MemberController {
     @Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
-    }
-
-    @ModelAttribute("roleList")
-    public List<String> getRoles() {
-        return Arrays.stream(SecurityRoles.values())
-                .map(SecurityRoles::getName)
-                .collect(Collectors.toUnmodifiableList());
-    }
-
-    @ModelAttribute("memberRoleList")
-    public List<String> getMemberRoles() {
-        return Arrays.stream(MemberShipRoles.values())
-                .map(MemberShipRoles::getName)
-                .collect(Collectors.toUnmodifiableList());
-    }
-
-    @ModelAttribute("knittingStiches")
-    public List<String> getKnittingStiches() {
-        return Arrays.stream(KnittingStiches.values())
-                .map(KnittingStiches::getName)
-                .collect(Collectors.toUnmodifiableList());
     }
 
     @GetMapping()

@@ -34,7 +34,7 @@ public class TestDataServiceImpl implements TestDataService, ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         importTestData();
     }
 }
